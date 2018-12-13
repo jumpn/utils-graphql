@@ -26,8 +26,16 @@ const dirs = {
 const getCjsAndEsConfig = fileName => ({
   input: `${dirs.input}/${fileName}`,
   output: [
-    {file: `${dirs.output}/${fileName}`, format: "es"},
-    {file: `${dirs.compat}/cjs/${fileName}`, format: "cjs"}
+    {
+      file: `${dirs.output}/${fileName}`,
+      format: "es",
+      sourcemap: true
+    },
+    {
+      file: `${dirs.compat}/cjs/${fileName}`,
+      format: "cjs",
+      sourcemap: true
+    }
   ],
   plugins: [plugins.babel]
 });
@@ -41,9 +49,10 @@ export default [
     input: `${dirs.input}/index.js`,
     output: {
       file: `${dirs.compat}/umd/index.js`,
-      format: "umd"
+      format: "umd",
+      name: pascalCase(getUnscopedName(pkg)),
+      sourcemap: true
     },
-    name: pascalCase(getUnscopedName(pkg)),
     plugins: [plugins.babel, plugins.resolve, plugins.commonjs]
   },
   ...sources.map(getCjsAndEsConfig)
