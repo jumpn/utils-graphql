@@ -1,6 +1,6 @@
 // @flow
 
-import type {DocumentNode} from "./types";
+import type {DocumentNode} from "graphql/language/ast";
 
 const isSubscription = definition =>
   definition.kind === "OperationDefinition" &&
