@@ -12,10 +12,19 @@
 - [Types](#types)
 - [API](#api)
   - [errorsToString](#errorstostring)
+    - [Parameters](#parameters)
+    - [Examples](#examples)
   - [getOperationType](#getoperationtype)
+    - [Parameters](#parameters-1)
+    - [Examples](#examples-1)
   - [hasSubscription](#hassubscription)
+    - [Parameters](#parameters-2)
   - [requestFromCompat](#requestfromcompat)
+    - [Parameters](#parameters-3)
+    - [Examples](#examples-2)
   - [requestToCompat](#requesttocompat)
+    - [Parameters](#parameters-4)
+    - [Examples](#examples-3)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -32,28 +41,31 @@
 
 ## Types
 
-```flowtype
-export type {DocumentNode} from "graphql/language/ast";
-
-type GqlErrorLocation = {
+```javascript
+type GqlErrorLocation = {|
   line: number,
   column: number
-};
+|};
 
-type GqlError = {
+type GqlError = {|
   message: string,
   locations?: Array<GqlErrorLocation>
-};
+|};
 
-type GqlRequest<Variables: void | Object = void> = {
+type GqlRequest<Variables: void | Object = void> = {|
   operation: string,
   variables?: Variables
-};
+|};
 
-type GqlResponse<Data> = {
+type GqlRequestCompat<Variables: void | Object = void> = {|
+  query: string,
+  variables?: Variables
+|};
+
+type GqlResponse<Data> = {|
   data?: Data,
   errors?: Array<GqlError>
-};
+|};
 
 type GqlOperationType = "mutation" | "query" | "subscription";
 ```
@@ -66,11 +78,11 @@ type GqlOperationType = "mutation" | "query" | "subscription";
 
 Transforms an array of GqlError into a string.
 
-**Parameters**
+#### Parameters
 
--   `gqlErrors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;GqlError>** 
+-   `gqlErrors` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;GqlError>** 
 
-**Examples**
+#### Examples
 
 ```javascript
 const gqlRespose = {
@@ -86,17 +98,17 @@ const error = errorsToString(gqlRespose.errors);
 // Second Error (4:2)
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### getOperationType
 
 Returns the type (query, mutation, or subscription) of the given operation
 
-**Parameters**
+#### Parameters
 
--   `operation` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `operation` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-**Examples**
+#### Examples
 
 ```javascript
 const operation = `
@@ -119,23 +131,23 @@ Returns **GqlOperationType**
 
 Returns true if documentNode has a subscription or false otherwise
 
-**Parameters**
+#### Parameters
 
 -   `documentNode` **DocumentNode** 
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
+Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** 
 
 ### requestFromCompat
 
 Creates a GqlRequest using given GqlRequestCompat
 
-**Parameters**
+#### Parameters
 
 -   `gqlRequestCompat` **GqlRequestCompat&lt;Variables>** 
     -   `gqlRequestCompat.query`  
     -   `gqlRequestCompat.variables`  
 
-**Examples**
+#### Examples
 
 ```javascript
 const query = `
@@ -157,13 +169,13 @@ Returns **GqlRequest&lt;Variables>**
 
 Creates a GqlRequest using given GqlRequestCompat
 
-**Parameters**
+#### Parameters
 
 -   `gqlRequest` **GqlRequest&lt;Variables>** 
     -   `gqlRequest.operation`  
     -   `gqlRequest.variables`  
 
-**Examples**
+#### Examples
 
 ```javascript
 const operation = `
@@ -183,4 +195,4 @@ Returns **GqlRequestCompat&lt;Variables>**
 
 ## License
 
-[MIT](LICENSE.txt) :copyright: **Jumpn Limited** / Mauro Titimoli (mauro@jumpn.com)
+[MIT](LICENSE.txt) :copyright: **Jumpn Limited**

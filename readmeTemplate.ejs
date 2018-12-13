@@ -21,28 +21,33 @@ $ yarn add <%= name %>
 
 ## Types
 
-```flowtype
+```javascript
 export type {DocumentNode} from "graphql/language/ast";
 
-type GqlErrorLocation = {
+type GqlErrorLocation = {|
   line: number,
   column: number
-};
+|};
 
-type GqlError = {
+type GqlError = {|
   message: string,
   locations?: Array<GqlErrorLocation>
-};
+|};
 
-type GqlRequest<Variables: void | Object = void> = {
+type GqlRequest<Variables: void | Object = void> = {|
   operation: string,
   variables?: Variables
-};
+|};
 
-type GqlResponse<Data> = {
+type GqlRequestCompat<Variables: void | Object = void> = {|
+  query: string,
+  variables?: Variables
+|};
+
+type GqlResponse<Data> = {|
   data?: Data,
   errors?: Array<GqlError>
-};
+|};
 
 type GqlOperationType = "mutation" | "query" | "subscription";
 ```
@@ -51,4 +56,4 @@ type GqlOperationType = "mutation" | "query" | "subscription";
 
 ## License
 
-[<%= license %>](LICENSE.txt) :copyright: **Jumpn Limited** / <%= author.name %> (<%= author.email %>)
+[<%= license %>](LICENSE.txt) :copyright: **Jumpn Limited**
